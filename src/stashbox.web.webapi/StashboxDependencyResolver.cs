@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Http.Dependencies;
+using Ronin.Common;
 using Stashbox.Infrastructure;
 
 namespace Stashbox.Web.WebApi
@@ -18,19 +19,21 @@ namespace Stashbox.Web.WebApi
         /// <param name="stashboxContainer">The stashbox container instance.</param>
         public StashboxDependencyResolver(IStashboxContainer stashboxContainer)
         {
+            Shield.EnsureNotNull(stashboxContainer, nameof(stashboxContainer));
+
             this.stashboxContainer = stashboxContainer;
         }
 
         /// <inheritdoc />
         public object GetService(Type serviceType)
         {
-            return this.stashboxContainer.Resolve(serviceType);
+            return this.stashboxContainer.IsRegistered(serviceType) ? this.stashboxContainer.Resolve(serviceType) : null;
         }
 
         /// <inheritdoc />
         public IEnumerable<object> GetServices(Type serviceType)
         {
-            return this.stashboxContainer.ResolveAll(serviceType);
+            return this.stashboxContainer.IsRegistered(serviceType) ? this.stashboxContainer.ResolveAll(serviceType) : new List<object>();
         }
 
         /// <inheritdoc />

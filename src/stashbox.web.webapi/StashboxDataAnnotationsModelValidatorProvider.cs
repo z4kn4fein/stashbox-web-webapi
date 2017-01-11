@@ -33,15 +33,14 @@ namespace Stashbox.Web.WebApi
         /// <inheritdoc />
         protected override IEnumerable<ModelValidator> GetValidators(ModelMetadata metadata, IEnumerable<ModelValidatorProvider> validatorProviders, IEnumerable<Attribute> attributes)
         {
-            var validators = base.GetValidators(metadata, validatorProviders, attributes);
-            var modelValidators = validators as ModelValidator[] ?? validators.ToArray();
-            foreach (var modelValidator in modelValidators)
+            var validators = base.GetValidators(metadata, validatorProviders, attributes).ToArray();
+            foreach (var modelValidator in validators)
             {
                 var attribute = this.attributeGetter.Invoke(modelValidator, new object[0]);
                 this.stashboxContainer.BuildUp(attribute);
             }
 
-            return modelValidators;
+            return validators;
         }
     }
 }
