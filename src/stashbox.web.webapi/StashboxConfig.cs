@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Stashbox.Infrastructure;
+using System;
 using System.Web.Http;
 using System.Web.Http.Filters;
 using System.Web.Http.Validation;
-using Stashbox.Infrastructure;
 
 namespace Stashbox.Web.WebApi
 {
@@ -11,7 +11,7 @@ namespace Stashbox.Web.WebApi
     /// </summary>
     public static class StashboxConfig
     {
-        private static readonly Lazy<IStashboxContainer> stashboxContainer = new Lazy<IStashboxContainer>(() => new StashboxContainer());
+        private static readonly Lazy<IStashboxContainer> stashboxContainer = new Lazy<IStashboxContainer>(() => new StashboxContainer(trackTransientsForDisposal: true));
 
         /// <summary>
         /// Singleton instance of the <see cref="StashboxContainer"/>.

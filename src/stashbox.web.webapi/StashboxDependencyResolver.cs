@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Stashbox.Infrastructure;
+using Stashbox.Utils;
+using System;
 using System.Collections.Generic;
 using System.Web.Http.Dependencies;
-using Stashbox.Infrastructure;
-using Stashbox.Utils;
 
 namespace Stashbox.Web.WebApi
 {
@@ -39,7 +39,7 @@ namespace Stashbox.Web.WebApi
         /// <inheritdoc />
         public IDependencyScope BeginScope()
         {
-            return new StashboxDependencyResolver(this.stashboxContainer.CreateChildContainer());
+            return new StashboxDependencyResolver(this.stashboxContainer.BeginScope());
         }
 
         /// <inheritdoc />
