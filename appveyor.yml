@@ -11,6 +11,7 @@ assembly_info:
   assembly_informational_version: '{version}'
 before_build:
 - nuget restore src\stashbox.web.webapi.sln
+- nuget update src\stashbox.web.webapi.sln -id Stashbox
 build:
   project: src\stashbox.web.webapi.sln
   publish_nuget: true

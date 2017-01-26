@@ -27,13 +27,13 @@ namespace Stashbox.Web.WebApi
         /// <inheritdoc />
         public object GetService(Type serviceType)
         {
-            return this.stashboxContainer.IsRegistered(serviceType) ? this.stashboxContainer.Resolve(serviceType) : null;
+            return this.stashboxContainer.CanResolve(serviceType) ? this.stashboxContainer.Resolve(serviceType) : null;
         }
 
         /// <inheritdoc />
         public IEnumerable<object> GetServices(Type serviceType)
         {
-            return this.stashboxContainer.IsRegistered(serviceType) ? this.stashboxContainer.ResolveAll(serviceType) : new List<object>();
+            return this.stashboxContainer.CanResolve(serviceType) ? this.stashboxContainer.ResolveAll(serviceType) : new List<object>();
         }
 
         /// <inheritdoc />

@@ -11,7 +11,10 @@ namespace Stashbox.Web.WebApi
     /// </summary>
     public static class StashboxConfig
     {
-        private static readonly Lazy<IStashboxContainer> stashboxContainer = new Lazy<IStashboxContainer>(() => new StashboxContainer(trackTransientsForDisposal: true));
+        private static readonly Lazy<IStashboxContainer> stashboxContainer = new Lazy<IStashboxContainer>(() => new StashboxContainer(config => config
+            .WithCircularDependencyTracking()
+            .WithDisposableTransientTracking()
+            .WithParentContainerResolution()));
 
         /// <summary>
         /// Singleton instance of the <see cref="StashboxContainer"/>.
