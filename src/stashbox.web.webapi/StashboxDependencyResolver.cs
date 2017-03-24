@@ -1,6 +1,4 @@
-﻿using Stashbox.Infrastructure;
-using Stashbox.Utils;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Web.Http.Dependencies;
 
@@ -9,43 +7,29 @@ namespace Stashbox.Web.WebApi
     /// <summary>
     /// Represents the stashbox dependency resolver.
     /// </summary>
-    public class StashboxDependencyResolver : System.Web.Http.Dependencies.IDependencyResolver
+    public class StashboxDependencyResolver : IDependencyResolver
     {
-        private readonly IStashboxContainer stashboxContainer;
+        private readonly Infrastructure.IDependencyResolver dependencyResolver;
 
         /// <summary>
         /// Constructs a <see cref="StashboxDependencyResolver"/>
         /// </summary>
-        /// <param name="stashboxContainer">The stashbox container instance.</param>
-        public StashboxDependencyResolver(IStashboxContainer stashboxContainer)
+        /// <param name="dependencyResolver">The stashbox container instance.</param>
+        public StashboxDependencyResolver(Infrastructure.IDependencyResolver dependencyResolver)
         {
-            Shield.EnsureNotNull(stashboxContainer, nameof(stashboxContainer));
-
-            this.stashboxContainer = stashboxContainer;
+            this.dependencyResolver = dependencyResolver;
         }
 
         /// <inheritdoc />
-        public object GetService(Type serviceType)
-        {
-            return this.stashboxContainer.CanResolve(serviceType) ? this.stashboxContainer.Resolve(serviceType) : null;
-        }
+        public object GetService(Type serviceType) => this.dependencyResolver.Resolve(serviceType, nullResultAllowed: true);
 
         /// <inheritdoc />
-        public IEnumerable<object> GetServices(Type serviceType)
-        {
-            return this.stashboxContainer.CanResolve(serviceType) ? this.stashboxContainer.ResolveAll(serviceType) : new List<object>();
-        }
+        public IEnumerable<object> GetServices(Type serviceType) => this.dependencyResolver.ResolveAll(serviceType);
 
         /// <inheritdoc />
-        public IDependencyScope BeginScope()
-        {
-            return new StashboxDependencyResolver(this.stashboxContainer.BeginScope());
-        }
+        public IDependencyScope BeginScope() => new StashboxDependencyResolver(this.dependencyResolver.BeginScope());
 
         /// <inheritdoc />
-        public void Dispose()
-        {
-            this.stashboxContainer.Dispose();
-        }
+        public void Dispose() => this.dependencyResolver.Dispose();
     }
 }
