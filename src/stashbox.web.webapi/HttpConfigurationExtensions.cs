@@ -20,24 +20,24 @@ namespace System.Web.Http
         /// </summary>
         public static void UseStashbox(this HttpConfiguration config, Action<IStashboxContainer> configureAction)
         {
-            StashboxConfig.Container.RegisterInstance<IStashboxContainer>(StashboxConfig.Container);
+            StashboxConfig.Container.RegisterInstance(StashboxConfig.Container);
             StashboxConfig.Container.RegisterType<ModelValidatorProvider, StashboxDataAnnotationsModelValidatorProvider>();
-            StashboxConfig.Container.PrepareType<ModelValidatorProvider, StashboxModelValidatorProvider>()
+            StashboxConfig.Container.RegisterType<ModelValidatorProvider, StashboxModelValidatorProvider>(context => context
                 .WithInjectionParameters(new InjectionParameter
                 {
                     Name = "modelValidatorProviders",
                     Value = config.Services.GetServices(typeof(ModelValidatorProvider))
                                            .Where(provider => !(provider is DataAnnotationsModelValidatorProvider))
                                            .Cast<ModelValidatorProvider>()
-                }).Register();
+                }));
 
-            StashboxConfig.Container.PrepareType<IFilterProvider, StashboxFilterProvider>()
+            StashboxConfig.Container.RegisterType<IFilterProvider, StashboxFilterProvider>(context => context
                 .WithInjectionParameters(new InjectionParameter
                 {
                     Name = "filterProviders",
                     Value = config.Services.GetServices(typeof(IFilterProvider))
                                            .Cast<IFilterProvider>()
-                }).Register();
+                }));
 
             config.Services.Clear(typeof(IFilterProvider));
             config.Services.Clear(typeof(ModelValidatorProvider));
@@ -55,10 +55,8 @@ namespace System.Web.Http
         {
             var assembliesResolver = config.Services.GetAssembliesResolver();
             var typeResolver = config.Services.GetHttpControllerTypeResolver();
-            var controllers = typeResolver.GetControllerTypes(assembliesResolver);
-
-            foreach (var controller in controllers)
-                StashboxConfig.Container.PrepareType(controller).WithLifetime(new ScopedLifetime()).Register();
+            StashboxConfig.Container.RegisterTypesAsSelf(typeResolver.GetControllerTypes(assembliesResolver), null,
+                context => context.WithLifetime(new ScopedLifetime()));
         }
     }
 }
