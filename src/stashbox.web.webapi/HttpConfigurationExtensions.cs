@@ -55,7 +55,7 @@ namespace System.Web.Http
         {
             var assembliesResolver = config.Services.GetAssembliesResolver();
             var typeResolver = config.Services.GetHttpControllerTypeResolver();
-            StashboxConfig.Container.RegisterTypesAsSelf(typeResolver.GetControllerTypes(assembliesResolver), null,
+            StashboxConfig.Container.RegisterTypes(typeResolver.GetControllerTypes(assembliesResolver), null,
                 context => context.WithLifetime(new ScopedLifetime()));
         }
     }
