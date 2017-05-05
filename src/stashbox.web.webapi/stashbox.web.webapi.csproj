@@ -67,7 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HttpConfigurationExtensions.cs" />
-    <Compile Include="StashboxConfig.cs" />
+    <Compile Include="StashboxContainerExtensions.cs" />
     <Compile Include="StashboxDataAnnotationsModelValidatorProvider.cs" />
     <Compile Include="StashboxDependencyResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,62 +1,37 @@
-﻿using System.Linq;
-using System.Web.Http.Filters;
+﻿using System.Web.Http.Filters;
 using System.Web.Http.Validation;
-using System.Web.Http.Validation.Providers;
 using Stashbox;
-using Stashbox.Entity;
 using Stashbox.Infrastructure;
-using Stashbox.Lifetime;
+using Stashbox.Utils;
 using Stashbox.Web.WebApi;
 
 namespace System.Web.Http
 {
     /// <summary>
-    /// Represents the <see cref="HttpConfiguration"/> extension for using <see cref="StashboxContainer"/>.
+    /// Represents the <see cref="HttpConfiguration"/> extension for using <see cref="StashboxContainerExtensions"/>.
     /// </summary>
     public static class HttpConfigurationExtensions
     {
         /// <summary>
-        /// Configures the <see cref="StashboxContainer"/> as the default dependency resolver and sets custom <see cref="IFilterProvider"/> and <see cref="ModelValidatorProvider"/>.
+        /// Configures the <see cref="StashboxContainerExtensions"/> as the default dependency resolver and sets custom <see cref="IFilterProvider"/> and <see cref="ModelValidatorProvider"/>.
         /// </summary>
-        public static void UseStashbox(this HttpConfiguration config, Action<IStashboxContainer> configureAction)
+        public static void UseStashbox(this HttpConfiguration config, Action<IStashboxContainer> configureAction = null)
         {
-            StashboxConfig.Container.RegisterInstance(StashboxConfig.Container);
-            StashboxConfig.Container.RegisterType<ModelValidatorProvider, StashboxDataAnnotationsModelValidatorProvider>();
-            StashboxConfig.Container.RegisterType<ModelValidatorProvider, StashboxModelValidatorProvider>(context => context
-                .WithInjectionParameters(new InjectionParameter
-                {
-                    Name = "modelValidatorProviders",
-                    Value = config.Services.GetServices(typeof(ModelValidatorProvider))
-                                           .Where(provider => !(provider is DataAnnotationsModelValidatorProvider))
-                                           .Cast<ModelValidatorProvider>()
-                }));
+            var container = new StashboxContainer(conf => conf
+                .WithCircularDependencyTracking()
+                .WithDisposableTransientTracking());
 
-            StashboxConfig.Container.RegisterType<IFilterProvider, StashboxFilterProvider>(context => context
-                .WithInjectionParameters(new InjectionParameter
-                {
-                    Name = "filterProviders",
-                    Value = config.Services.GetServices(typeof(IFilterProvider))
-                                           .Cast<IFilterProvider>()
-                }));
-
-            config.Services.Clear(typeof(IFilterProvider));
-            config.Services.Clear(typeof(ModelValidatorProvider));
-
-            config.DependencyResolver = new StashboxDependencyResolver(StashboxConfig.Container);
-            config.RegisterWebApiControllers();
-            configureAction(StashboxConfig.Container);
+            container.AddWebApi(config, configureAction);
         }
 
         /// <summary>
-        /// Registers the web api controllers into the <see cref="IStashboxContainer"/>.
+        /// Configures the <see cref="StashboxContainerExtensions"/> as the default dependency resolver and sets custom <see cref="IFilterProvider"/> and <see cref="ModelValidatorProvider"/>.
         /// </summary>
-        /// <param name="config">The http configuration.</param>
-        public static void RegisterWebApiControllers(this HttpConfiguration config)
+        public static void UseStashbox(this HttpConfiguration config, IStashboxContainer container, Action<IStashboxContainer> configureAction = null)
         {
-            var assembliesResolver = config.Services.GetAssembliesResolver();
-            var typeResolver = config.Services.GetHttpControllerTypeResolver();
-            StashboxConfig.Container.RegisterTypes(typeResolver.GetControllerTypes(assembliesResolver), null,
-                context => context.WithLifetime(new ScopedLifetime()));
+            Shield.EnsureNotNull(container, nameof(container));
+
+            container.AddWebApi(config, configureAction);
         }
     }
 }
