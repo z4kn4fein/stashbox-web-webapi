@@ -5,17 +5,17 @@ using System.Web.Http.Dependencies;
 namespace Stashbox.Web.WebApi
 {
     /// <summary>
-    /// Represents the stashbox dependency resolver.
+    /// Represents a stashbox dependency scope.
     /// </summary>
-    public class StashboxDependencyResolver : IDependencyResolver
+    public class StashboxDependencyScope : IDependencyScope
     {
         private readonly Infrastructure.IDependencyResolver dependencyResolver;
 
         /// <summary>
-        /// Constructs a <see cref="StashboxDependencyResolver"/>
+        /// Constructs a <see cref="StashboxDependencyScope"/>.
         /// </summary>
-        /// <param name="dependencyResolver">The stashbox container instance.</param>
-        public StashboxDependencyResolver(Infrastructure.IDependencyResolver dependencyResolver)
+        /// <param name="dependencyResolver">The container.</param>
+        public StashboxDependencyScope(Infrastructure.IDependencyResolver dependencyResolver)
         {
             this.dependencyResolver = dependencyResolver;
         }
@@ -25,9 +25,6 @@ namespace Stashbox.Web.WebApi
 
         /// <inheritdoc />
         public IEnumerable<object> GetServices(Type serviceType) => this.dependencyResolver.ResolveAll(serviceType);
-
-        /// <inheritdoc />
-        public IDependencyScope BeginScope() => new StashboxDependencyScope(this.dependencyResolver.BeginScope());
 
         /// <inheritdoc />
         public void Dispose() => this.dependencyResolver.Dispose();
