@@ -5,24 +5,17 @@ using System.Web.Http.Filters;
 using System.Web.Http.Validation;
 using System.Web.Http.Validation.Providers;
 using Stashbox.Entity;
-using Stashbox.Infrastructure;
 using Stashbox.Lifetime;
+using Stashbox.Web.WebApi;
 
-namespace Stashbox.Web.WebApi
+namespace Stashbox.Infrastructure
 {
     /// <summary>
     /// Represents the web api related extensions of <see cref="IStashboxContainer"/>.
     /// </summary>
     public static class StashboxContainerExtensions
     {
-        /// <summary>
-        /// Configures the <see cref="StashboxContainerExtensions"/> as the default dependency resolver and sets custom <see cref="IFilterProvider"/> and <see cref="ModelValidatorProvider"/>.
-        /// </summary>
-        /// <param name="container">The container.</param>
-        /// <param name="config">The http configuration.</param>
-        /// <param name="configureAction">The container configurator.</param>
-        /// <returns>The container.</returns>
-        public static IStashboxContainer AddWebApi(this IStashboxContainer container, HttpConfiguration config, Action<IStashboxContainer> configureAction = null)
+        internal static IStashboxContainer AddWebApi(this IStashboxContainer container, HttpConfiguration config, Action<IStashboxContainer> configureAction = null)
         {
             container.RegisterInstance(container);
             container.RegisterType<ModelValidatorProvider, StashboxDataAnnotationsModelValidatorProvider>();

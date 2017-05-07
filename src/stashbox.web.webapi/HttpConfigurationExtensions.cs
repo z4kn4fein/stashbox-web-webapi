@@ -3,7 +3,6 @@ using System.Web.Http.Validation;
 using Stashbox;
 using Stashbox.Infrastructure;
 using Stashbox.Utils;
-using Stashbox.Web.WebApi;
 
 namespace System.Web.Http
 {
