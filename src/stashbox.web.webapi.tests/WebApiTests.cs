@@ -8,6 +8,7 @@ using System.Web.Http;
 using System.Web.Http.Filters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Stashbox.Attributes;
+using Stashbox.Infrastructure;
 
 namespace Stashbox.Web.WebApi.Tests
 {
@@ -119,10 +120,12 @@ namespace Stashbox.Web.WebApi.Tests
         {
             using (var config = new HttpConfiguration())
             {
+                var container = new StashboxContainer();
                 config.MapHttpAttributeRoutes();
                 config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
 
-                config.UseStashbox(container => container.RegisterType<Test>().RegisterType<Test2>());
+                container.RegisterType<Test>().RegisterType<Test2>();
+                container.AddWebApi(config);
 
                 using (var server = new HttpServer(config))
                 using (var client = new HttpClient(server))
@@ -143,10 +146,12 @@ namespace Stashbox.Web.WebApi.Tests
         {
             using (var config = new HttpConfiguration())
             {
+                var container = new StashboxContainer();
                 config.MapHttpAttributeRoutes();
                 config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
 
-                config.UseStashbox(container => container.RegisterType<Test>().RegisterType<Test2>());
+                container.RegisterType<Test>().RegisterType<Test2>();
+                container.AddWebApi(config);
 
                 using (var server = new HttpServer(config))
                 using (var client = new HttpClient(server))
@@ -164,10 +169,12 @@ namespace Stashbox.Web.WebApi.Tests
         {
             using (var config = new HttpConfiguration())
             {
+                var container = new StashboxContainer();
                 config.MapHttpAttributeRoutes();
                 config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
 
-                config.UseStashbox(container => container.RegisterScoped<Test3>());
+                container.RegisterScoped<Test3>();
+                container.AddWebApi(config);
 
                 using (var server = new HttpServer(config))
                 using (var client = new HttpClient(server))
