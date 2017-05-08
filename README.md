@@ -15,7 +15,9 @@ public static class WebApiConfig
     }
 }
 ```
-Or you can get more controll over the configuration by doing the steps manually:
+
+## Manual configuration
+You can get more controll over the configuration by doing the steps manually and skip which you don't need:
 ```c#
 public static class WebApiConfig
 {
