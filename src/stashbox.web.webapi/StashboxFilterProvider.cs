@@ -13,20 +13,20 @@ namespace Stashbox.Web.WebApi
     /// </summary>
     public class StashboxFilterProvider : IFilterProvider
     {
-        private readonly IStashboxContainer stashboxContainer;
+        private readonly IDependencyResolver dependencyResolver;
         private readonly IEnumerable<IFilterProvider> filterProviders;
 
         /// <summary>
         /// Constructs a <see cref="StashboxFilterProvider"/>
         /// </summary>
-        /// <param name="stashboxContainer">The stashbox container instance.</param>
+        /// <param name="dependencyResolver">The stashbox container instance.</param>
         /// <param name="filterProviders">The collection of the existing filter providers.</param>
-        public StashboxFilterProvider(IStashboxContainer stashboxContainer, IEnumerable<IFilterProvider> filterProviders)
+        public StashboxFilterProvider(IDependencyResolver dependencyResolver, IEnumerable<IFilterProvider> filterProviders)
         {
-            Shield.EnsureNotNull(stashboxContainer, nameof(stashboxContainer));
+            Shield.EnsureNotNull(dependencyResolver, nameof(dependencyResolver));
             Shield.EnsureNotNull(filterProviders, nameof(filterProviders));
 
-            this.stashboxContainer = stashboxContainer;
+            this.dependencyResolver = dependencyResolver;
             this.filterProviders = filterProviders;
         }
 
@@ -35,7 +35,7 @@ namespace Stashbox.Web.WebApi
         {
             var filters = this.filterProviders.SelectMany(provider => provider.GetFilters(configuration, actionDescriptor)).ToArray();
             foreach (var filter in filters)
-                this.stashboxContainer.BuildUp(filter.Instance);
+                this.dependencyResolver.BuildUp(filter.Instance);
 
             return filters;
         }

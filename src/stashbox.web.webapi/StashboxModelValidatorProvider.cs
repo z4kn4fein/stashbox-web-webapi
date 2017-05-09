@@ -12,20 +12,20 @@ namespace Stashbox.Web.WebApi
     /// </summary>
     public class StashboxModelValidatorProvider : ModelValidatorProvider
     {
-        private readonly IStashboxContainer stashboxContainer;
+        private readonly IDependencyResolver dependencyResolver;
         private readonly IEnumerable<ModelValidatorProvider> modelValidatorProviders;
 
         /// <summary>
         /// Constructs a <see cref="StashboxModelValidatorProvider"/>
         /// </summary>
-        /// <param name="stashboxContainer">The stashbox container instance.</param>
+        /// <param name="dependencyResolver">The stashbox container instance.</param>
         /// <param name="modelValidatorProviders">The collection of the existing model validator providers.</param>
-        public StashboxModelValidatorProvider(IStashboxContainer stashboxContainer, IEnumerable<ModelValidatorProvider> modelValidatorProviders)
+        public StashboxModelValidatorProvider(IDependencyResolver dependencyResolver, IEnumerable<ModelValidatorProvider> modelValidatorProviders)
         {
-            Shield.EnsureNotNull(stashboxContainer, nameof(stashboxContainer));
+            Shield.EnsureNotNull(dependencyResolver, nameof(dependencyResolver));
             Shield.EnsureNotNull(modelValidatorProviders, nameof(modelValidatorProviders));
 
-            this.stashboxContainer = stashboxContainer;
+            this.dependencyResolver = dependencyResolver;
             this.modelValidatorProviders = modelValidatorProviders;
         }
         
@@ -34,7 +34,7 @@ namespace Stashbox.Web.WebApi
         {
             var validators = this.modelValidatorProviders.SelectMany(provider => provider.GetValidators(metadata, validatorProviders)).ToList();
             foreach (var modelValidator in validators)
-                this.stashboxContainer.BuildUp(modelValidator);
+                this.dependencyResolver.BuildUp(modelValidator);
 
             return validators;
         }

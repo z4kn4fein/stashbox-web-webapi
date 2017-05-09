@@ -27,7 +27,6 @@ namespace Stashbox.Infrastructure
             Shield.EnsureNotNull(container, nameof(container));
             Shield.EnsureNotNull(config, nameof(config));
 
-            container.RegisterInstance(container);
             container.AddWebApiModelValidatorInjection(config);
             container.AddWebApiFilterProviderInjection(config);
 

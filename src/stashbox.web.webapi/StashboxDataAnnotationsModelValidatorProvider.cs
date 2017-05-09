@@ -15,17 +15,17 @@ namespace Stashbox.Web.WebApi
     /// </summary>
     public class StashboxDataAnnotationsModelValidatorProvider : DataAnnotationsModelValidatorProvider
     {
-        private readonly IStashboxContainer stashboxContainer;
+        private readonly IDependencyResolver dependencyResolver;
 
         private readonly MethodInfo attributeGetter;
 
         /// <summary>
         /// Constructs a <see cref="StashboxDataAnnotationsModelValidatorProvider"/>
         /// </summary>
-        /// <param name="stashboxContainer">The stashbox container instance.</param>
-        public StashboxDataAnnotationsModelValidatorProvider(IStashboxContainer stashboxContainer)
+        /// <param name="dependencyResolver">The stashbox container instance.</param>
+        public StashboxDataAnnotationsModelValidatorProvider(IDependencyResolver dependencyResolver)
         {
-            this.stashboxContainer = stashboxContainer;
+            this.dependencyResolver = dependencyResolver;
             this.attributeGetter = typeof(DataAnnotationsModelValidator).GetMethod("get_Attribute",
                 BindingFlags.NonPublic | BindingFlags.DeclaredOnly | BindingFlags.Instance);
         }
@@ -37,7 +37,7 @@ namespace Stashbox.Web.WebApi
             foreach (var modelValidator in validators)
             {
                 var attribute = this.attributeGetter.Invoke(modelValidator, new object[0]);
-                this.stashboxContainer.BuildUp(attribute);
+                this.dependencyResolver.BuildUp(attribute);
             }
 
             return validators;
