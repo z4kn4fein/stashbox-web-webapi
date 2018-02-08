@@ -7,15 +7,15 @@ namespace Stashbox.Web.WebApi
     /// <summary>
     /// Represents the stashbox dependency resolver.
     /// </summary>
-    public class StashboxDependencyResolver : IDependencyResolver
+    public class StashboxDependencyResolver : System.Web.Http.Dependencies.IDependencyResolver
     {
-        private readonly Infrastructure.IDependencyResolver dependencyResolver;
+        private readonly IDependencyResolver dependencyResolver;
 
         /// <summary>
         /// Constructs a <see cref="StashboxDependencyResolver"/>
         /// </summary>
         /// <param name="dependencyResolver">The stashbox container instance.</param>
-        public StashboxDependencyResolver(Infrastructure.IDependencyResolver dependencyResolver)
+        public StashboxDependencyResolver(IDependencyResolver dependencyResolver)
         {
             this.dependencyResolver = dependencyResolver;
         }

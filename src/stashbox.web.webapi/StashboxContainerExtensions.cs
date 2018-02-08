@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Stashbox.Entity;
+using Stashbox.Lifetime;
+using Stashbox.Utils;
+using Stashbox.Web.WebApi;
+using System;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Filters;
 using System.Web.Http.Validation;
 using System.Web.Http.Validation.Providers;
-using Stashbox.Entity;
-using Stashbox.Lifetime;
-using Stashbox.Utils;
-using Stashbox.Web.WebApi;
 
-namespace Stashbox.Infrastructure
+namespace Stashbox
 {
     /// <summary>
     /// Represents the web api related extensions of <see cref="IStashboxContainer"/>.

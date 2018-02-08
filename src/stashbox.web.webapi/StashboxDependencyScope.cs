@@ -9,13 +9,13 @@ namespace Stashbox.Web.WebApi
     /// </summary>
     public class StashboxDependencyScope : IDependencyScope
     {
-        private readonly Infrastructure.IDependencyResolver dependencyResolver;
+        private readonly IDependencyResolver dependencyResolver;
 
         /// <summary>
         /// Constructs a <see cref="StashboxDependencyScope"/>.
         /// </summary>
         /// <param name="dependencyResolver">The container.</param>
-        public StashboxDependencyScope(Infrastructure.IDependencyResolver dependencyResolver)
+        public StashboxDependencyScope(IDependencyResolver dependencyResolver)
         {
             this.dependencyResolver = dependencyResolver;
         }

@@ -6,7 +6,6 @@ using System.Web.Http.Metadata;
 using System.Web.Http.Validation;
 using System.Web.Http.Validation.Providers;
 using System.Web.Http.Validation.Validators;
-using Stashbox.Infrastructure;
 
 namespace Stashbox.Web.WebApi
 {

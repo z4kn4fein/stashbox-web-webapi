@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Stashbox.Attributes;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Formatting;
@@ -6,9 +8,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Filters;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Stashbox.Attributes;
-using Stashbox.Infrastructure;
 
 namespace Stashbox.Web.WebApi.Tests
 {
