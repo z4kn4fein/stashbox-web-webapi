@@ -47,8 +47,8 @@ namespace Stashbox
             Shield.EnsureNotNull(container, nameof(container));
             Shield.EnsureNotNull(config, nameof(config));
 
-            container.RegisterType<ModelValidatorProvider, StashboxDataAnnotationsModelValidatorProvider>();
-            container.RegisterType<ModelValidatorProvider, StashboxModelValidatorProvider>(context => context
+            container.Register<ModelValidatorProvider, StashboxDataAnnotationsModelValidatorProvider>();
+            container.Register<ModelValidatorProvider, StashboxModelValidatorProvider>(context => context
                 .WithInjectionParameters(new InjectionParameter
                 {
                     Name = "modelValidatorProviders",
@@ -73,7 +73,7 @@ namespace Stashbox
             Shield.EnsureNotNull(container, nameof(container));
             Shield.EnsureNotNull(config, nameof(config));
 
-            container.RegisterType<IFilterProvider, StashboxFilterProvider>(context => context
+            container.Register<IFilterProvider, StashboxFilterProvider>(context => context
                 .WithInjectionParameters(new InjectionParameter
                 {
                     Name = "filterProviders",

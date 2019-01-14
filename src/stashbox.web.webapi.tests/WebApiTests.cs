@@ -123,7 +123,7 @@ namespace Stashbox.Web.WebApi.Tests
                 config.MapHttpAttributeRoutes();
                 config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
 
-                container.RegisterType<Test>().RegisterType<Test2>();
+                container.Register<Test>().Register<Test2>();
                 container.AddWebApi(config);
 
                 using (var server = new HttpServer(config))
@@ -149,7 +149,7 @@ namespace Stashbox.Web.WebApi.Tests
                 config.MapHttpAttributeRoutes();
                 config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
 
-                container.RegisterType<Test>().RegisterType<Test2>();
+                container.Register<Test>().Register<Test2>();
                 container.AddWebApi(config);
 
                 using (var server = new HttpServer(config))

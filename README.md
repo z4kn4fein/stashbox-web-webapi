@@ -8,7 +8,7 @@ public static class WebApiConfig
     public static void Register(HttpConfiguration config)
     {
         var container = new StashboxContainer();
-        container.RegisterType<IService1, Service1>();
+        container.Register<IService1, Service1>();
         //...configure container
         
         container.AddWebApi(config);
@@ -24,7 +24,7 @@ public static class WebApiConfig
     public static void Register(HttpConfiguration config)
     {
         var container = new StashboxContainer();
-        container.RegisterType<IService1, Service1>();
+        container.Register<IService1, Service1>();
         //...configure container
         
         container.AddWebApiModelValidatorInjection(config);
@@ -44,7 +44,7 @@ public class Startup
     public void Configuration(IAppBuilder app)
     {
         var container = new StashboxContainer();
-        container.RegisterType<IService1, Service1>();
+        container.Register<IService1, Service1>();
         //...configure container
     
         var httpConfiguration = new HttpConfiguration();
