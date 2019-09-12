@@ -9,14 +9,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "stashbox.web.webapi.tests",
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Benchmark|Any CPU = Benchmark|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CF81346A-2B53-4B19-A014-58F40EFCF41B}.Benchmark|Any CPU.ActiveCfg = Release|Any CPU
+		{CF81346A-2B53-4B19-A014-58F40EFCF41B}.Benchmark|Any CPU.Build.0 = Release|Any CPU
 		{CF81346A-2B53-4B19-A014-58F40EFCF41B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CF81346A-2B53-4B19-A014-58F40EFCF41B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF81346A-2B53-4B19-A014-58F40EFCF41B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF81346A-2B53-4B19-A014-58F40EFCF41B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{375E832E-AEFC-48F4-A1FE-C211A7E56BBF}.Benchmark|Any CPU.ActiveCfg = Release|Any CPU
+		{375E832E-AEFC-48F4-A1FE-C211A7E56BBF}.Benchmark|Any CPU.Build.0 = Release|Any CPU
 		{375E832E-AEFC-48F4-A1FE-C211A7E56BBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{375E832E-AEFC-48F4-A1FE-C211A7E56BBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{375E832E-AEFC-48F4-A1FE-C211A7E56BBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -24,5 +29,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4C3C465A-B69A-42E2-AC94-95E6916AA6FD}
 	EndGlobalSection
 EndGlobal
