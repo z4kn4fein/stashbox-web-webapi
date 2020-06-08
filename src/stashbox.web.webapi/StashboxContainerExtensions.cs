@@ -1,8 +1,8 @@
-﻿using Stashbox.Entity;
-using Stashbox.Lifetime;
+﻿using Stashbox.Lifetime;
 using Stashbox.Utils;
 using Stashbox.Web.WebApi;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Filters;
@@ -49,13 +49,9 @@ namespace Stashbox
 
             container.Register<ModelValidatorProvider, StashboxDataAnnotationsModelValidatorProvider>();
             container.Register<ModelValidatorProvider, StashboxModelValidatorProvider>(context => context
-                .WithInjectionParameters(new InjectionParameter
-                {
-                    Name = "modelValidatorProviders",
-                    Value = config.Services.GetServices(typeof(ModelValidatorProvider))
+                .WithInjectionParameters(new KeyValuePair<string, object>("modelValidatorProviders", config.Services.GetServices(typeof(ModelValidatorProvider))
                                            .Where(provider => !(provider is DataAnnotationsModelValidatorProvider))
-                                           .Cast<ModelValidatorProvider>()
-                }));
+                                           .Cast<ModelValidatorProvider>())));
 
             config.Services.Clear(typeof(ModelValidatorProvider));
 
@@ -74,12 +70,8 @@ namespace Stashbox
             Shield.EnsureNotNull(config, nameof(config));
 
             container.Register<IFilterProvider, StashboxFilterProvider>(context => context
-                .WithInjectionParameters(new InjectionParameter
-                {
-                    Name = "filterProviders",
-                    Value = config.Services.GetServices(typeof(IFilterProvider))
-                                           .Cast<IFilterProvider>()
-                }));
+                .WithInjectionParameters(new KeyValuePair<string, object>("filterProviders", config.Services.GetServices(typeof(IFilterProvider))
+                                           .Cast<IFilterProvider>())));
 
             config.Services.Clear(typeof(IFilterProvider));
 
